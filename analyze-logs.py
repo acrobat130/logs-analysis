@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import psycopg2
 from datetime import datetime
 
@@ -28,6 +30,7 @@ def get_most_popular_articles():
                 FROM articles a
                 JOIN log l on l.path like '%/article/' || a.slug || '%'
                 WHERE l.path like '%/article/%'
+                AND l.status like '2%'
                 GROUP BY a.title
                 ORDER BY num desc
                 LIMIT 3
@@ -58,6 +61,7 @@ def get_most_popular_authors():
             JOIN authors auth on auth.id = a.author
             JOIN log l on l.path like '%/article/' || a.slug || '%'
             WHERE l.path like '%/article/%'
+            AND l.status like '2%'
             GROUP BY auth.name
             ORDER BY num desc
         """)
